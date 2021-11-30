@@ -15,39 +15,65 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemsController = void 0;
 const common_1 = require("@nestjs/common");
 const createitem_dto_1 = require("./dto/createitem.dto");
+const items_service_1 = require("./items.service");
 let ItemsController = class ItemsController {
-    findAll() {
-        return 'Get all items';
+    constructor(itemsService) {
+        this.itemsService = itemsService;
     }
-    findOne(param) {
-        return `Item ${param.id}`;
+    findAll() {
+        return this.itemsService.findAll();
+    }
+    findOne(id) {
+        return this.itemsService.findOne(id);
     }
     create(createItemDto) {
-        return `Name ${createItemDto.name} Desc ${createItemDto.description}`;
+        return this.itemsService.create(createItemDto);
+    }
+    delete(id) {
+        return this.itemsService.delete(id);
+    }
+    update(updateItemDto, id) {
+        return this.itemsService.update(id, updateItemDto);
     }
 };
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], ItemsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)()),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], ItemsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createitem_dto_1.CreateItemDto]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Promise)
 ], ItemsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ItemsController.prototype, "delete", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [createitem_dto_1.CreateItemDto, Object]),
+    __metadata("design:returntype", Promise)
+], ItemsController.prototype, "update", null);
 ItemsController = __decorate([
-    (0, common_1.Controller)('items')
+    (0, common_1.Controller)('items'),
+    __metadata("design:paramtypes", [items_service_1.ItemsService])
 ], ItemsController);
 exports.ItemsController = ItemsController;
 //# sourceMappingURL=items.controller.js.map
